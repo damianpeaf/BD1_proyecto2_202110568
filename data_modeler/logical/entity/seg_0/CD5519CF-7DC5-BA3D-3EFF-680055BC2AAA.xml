@@ -1,0 +1,113 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CD5519CF-7DC5-BA3D-3EFF-680055BC2AAA" name="candidato">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:47:04 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="7290F612-3F11-9AF0-C5E9-CDB9AF5488A8">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:47:09 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombres" id="1B417128-77D8-9D97-AAD6-B09B2A324780">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:47:15 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_nacimiento" id="CD46D451-89EF-56D2-CD7E-C4C6B8D8EE3D">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:47:37 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="partido_politico" id="C8F8755D-54D8-937E-ADE3-1A07FC91927B">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:47:50 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cargo_politico" id="C6ADD5F0-5FB5-8AAD-869F-FD8A6B24702F">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:48:03 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="2D6706F3-D62B-6CB5-B3BF-430EFAD32167">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:57:34 UTC</createdTime>
+<generatorID>18120F9D-DAD0-4957-4D60-CDA5734667DC</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<referedAttribute>ACA887C2-85D6-2942-5D41-793E6E439C02</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="DF03A08D-0BE1-DB17-ED18-46EFF9919D1C">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:57:38 UTC</createdTime>
+<generatorID>013EBA35-4BEB-626B-80CC-93539D98641E</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<referedAttribute>C70AB00F-FD0B-0B98-0192-0CBB21936224</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

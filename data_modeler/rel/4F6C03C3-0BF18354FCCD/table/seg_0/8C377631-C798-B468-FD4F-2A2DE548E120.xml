@@ -1,0 +1,113 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="8C377631-C798-B468-FD4F-2A2DE548E120" name="detalle_voto">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>0EB0C5A7-B032-E61E-2B7C-27A5A511E025</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="5F8A885F-44CA-3C41-B490-034A7DD697C0">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>9CF522A3-1BA3-A55D-831E-3046525B0C7F</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="voto" id="2BD26507-B04C-B6EE-7B61-BE4953BE33A2">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>3439E443-7FC4-490A-249D-D05396C09AC2</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="candidato" id="B3207CFE-1BDF-CFBD-790E-4D66731995B1">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>414C5736-DF94-73B4-D612-30BCD2AFCC1B</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="voto_id" id="56F780AC-1FB0-898A-A43A-171A9D764B73">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>AB25D5EF-CBA3-528E-A476-49563AB4FF57</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C57EEE05-F18B-53B1-FBFF-EE0839658313" referredColumn="270D03C9-26B7-F966-0503-A84CA7F8ED94"/>
+</associations>
+</Column>
+<Column name="candidato_candidato_ID" id="E1DB4810-56CF-7B05-15C8-590E66104746">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A6724BEE-D52A-C4E1-C089-23FEC6CB616D" referredColumn="E9B9867D-6B77-BDFA-5646-86B5664ED7D3"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F0BFA222-929F-7709-9FC9-67917BDB1826" name="detalle_voto_PK">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>DD2E3E70-EC97-0823-40EB-CBB8C195417C</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5F8A885F-44CA-3C41-B490-034A7DD697C0"/>
+<colUsage columnID="56F780AC-1FB0-898A-A43A-171A9D764B73"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E02F9BFF-1024-BFF5-E790-8CEE06950689" name="detalle_voto_candidato_FK">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>C6545104-12E9-EBCB-1CAA-25DAF144FC3B</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E1DB4810-56CF-7B05-15C8-590E66104746"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C312E4C2-7D59-DCFA-4978-21D10BC01C86" name="detalle_voto_voto_FK">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 01:00:49 UTC</createdTime>
+<generatorID>F12F76ED-6DD1-102D-BCE2-543F6BCA385D</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="56F780AC-1FB0-898A-A43A-171A9D764B73"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

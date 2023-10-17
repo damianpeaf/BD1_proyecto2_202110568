@@ -1,0 +1,111 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="BFE992CD-FA6C-B444-15F1-AA76009587F5" name="voto">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:44:50 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="F0ADCDBA-206D-1F34-75CD-EBD4AE040848">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:44:56 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="dpi" id="48347EBA-B269-9C27-FC77-F93159ACBF9B">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:45:08 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="mesa_votacion" id="46379EB9-8514-98E6-1166-F1553DDD675A">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:45:27 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_hora" id="2FA2B090-B76F-B2BB-5645-91398A916457">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:45:43 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="F703AADA-6345-8A84-E65E-0ACB5E4471BC">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:56:16 UTC</createdTime>
+<generatorID>8922F9D8-FE58-6858-4692-FB6FFCAB00D7</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<referedAttribute>DDA5E1B2-8698-BCE3-6959-CEDDC6CF3C49</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="dpi1" id="F9EB6B16-C404-E06B-4912-31B976CB1DAD">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:56:41 UTC</createdTime>
+<generatorID>461515B5-47CF-5ACB-CCBC-24DB292CA4CA</generatorID>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<referedAttribute>FFE33C7B-FA29-ACBF-06D7-26EFECE09F3F</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="18B4711B-37F0-234F-6BAA-FAB57FEDF7A8" name="voto PK">
+<createdBy>damia</createdBy>
+<createdTime>2023-09-12 00:45:00 UTC</createdTime>
+<ownerDesignName>diagrama</ownerDesignName>
+<engineerTo>
+<item key="4F6C03C3-BA7D-3538-A8F0-0BF18354FCCD" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>F0ADCDBA-206D-1F34-75CD-EBD4AE040848</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
