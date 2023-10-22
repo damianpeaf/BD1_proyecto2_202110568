@@ -94,7 +94,7 @@ create table nota(
 create table acta(
     id_acta bigint primary key auto_increment,
     id_habilitacion bigint not null,
-    fecha date not null,
+    fecha datetime not null,
     foreign key (id_habilitacion) references curso_habilitado(id_habilitacion)
 );
 
@@ -527,7 +527,7 @@ end //
 
 ####Registrar nota
 Delimiter //
-create procedure registrarNota(
+create procedure ingresarNota(
     p_codigo_curso bigint,
     p_ciclo enum('1S', '2S', 'VJ', 'VD'),
     p_seccion char(1),
@@ -582,7 +582,7 @@ end //
 
 ####Registrar acta
 Delimiter //
-create procedure registrarActa(
+create procedure generarActa(
     p_codigo_curso bigint,
     p_ciclo enum('1S', '2S', 'VJ', 'VD'),
     p_seccion char(1)
@@ -1038,7 +1038,7 @@ begin
         ch.anio,
         ch.cupo_actual as asignaciones,
         count(*) as desasignaciones,
-        count(*) / ch.cupo_actual as tasa_desasignacion
+        count(*) / (ch.cupo_actual+count(*)) as tasa_desasignacion
     from asignacion a
     inner join curso_habilitado ch on ch.id_habilitacion = a.id_habilitacion
     where ch.codigo_curso = p_codigo_curso and
@@ -1050,8 +1050,6 @@ begin
 end //
 
 #### datos
-
-
 
 #crear carrera
 call crearCarrera('Area comun');
@@ -1158,10 +1156,13 @@ call asignarCurso(1, '1S', 'A', 201900004);
 call desasignarCurso(1, '1S', 'A', 201900004);
 
 # asignar notas
-call registrarNota(1, '1S', 'A', 201900000, 100);
-call registrarNota(1, '1S', 'A', 201900001, 60);
-call registrarNota(1, '1S', 'A', 201900002, 59);
-call registrarNota(1, '1S', 'A', 201900003, 80);
+call ingresarNota(1, '1S', 'A', 201900000, 100);
+call ingresarNota(1, '1S', 'A', 201900001, 60);
+call ingresarNota(1, '1S', 'A', 201900002, 59);
+call ingresarNota(1, '1S', 'A', 201900003, 80);
+
+# generar acta
+call generarActa(1, '1S', 'A');
 
 # reportes
 call consultarPensum(2);
@@ -1170,8 +1171,7 @@ call consultarDocente(1);
 call consultarAsignados(1, '1S', 2023, 'A');
 call consultarAprobacion(1, '1S', 2023, 'A');
 call consultarActas(1);
-call consultarTasaDesasignacion(1, '1S', 2023, 'A');
-#call consultarDesasignacion(1, '1S', 2023, 'A');
+call consultarDesasignacion(1, '1S', 2023, 'A');
 
 select *
 from historial_transaccion;
