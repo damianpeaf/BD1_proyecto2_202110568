@@ -6,7 +6,7 @@ use proyecto_2;
 create table carrera(
     id_carrera bigint primary key auto_increment,
     nombre varchar(50) unique not null
-) auto_increment = 0;
+);
 
 
 ## Estudiate
@@ -110,21 +110,61 @@ create table historial_transaccion(
 
 ### Utiles
 
-#### Validar correo
+### Recibe la fecha como dia/mes/año y la convierte al formato de mysql
 Delimiter //
-create function validar_correo(
-    p_correo varchar(50)
+create function convertir_fecha(
+    p_fecha varchar(10)
 )
-returns boolean
+returns date
 begin
-    declare v_correo varchar(50);
-    declare v_valido boolean default false;
-    set v_correo = p_correo;
-    if v_correo like '%@%' and v_correo like '%.com%' then
-        set v_valido = true;
-    end if;
-    return v_valido;
+    declare v_fecha date;
+    set v_fecha = str_to_date(p_fecha, '%d-%m-%Y');
+    return v_fecha;
 end //
+
+### Recibe la fecha como datetime y la convierte a dia/mes/año
+Delimiter //
+create function convertir_fecha_string(
+    p_fecha date
+)
+returns varchar(10)
+begin
+    declare v_fecha varchar(10);
+    set v_fecha = date_format(p_fecha, '%d-%m-%Y');
+    return v_fecha;
+end //
+
+### Recibe la fecha hora como datetime y la convierte a dia/mes/año hora:minutos
+Delimiter //
+create function convertir_fecha_hora_string(
+    p_fecha_hora datetime
+)
+returns varchar(16)
+begin
+    declare v_fecha varchar(16);
+    set v_fecha = date_format(p_fecha_hora, '%d-%m-%Y %H:%i');
+    return v_fecha;
+end //
+
+
+
+#### Validar correo
+CREATE FUNCTION validar_correo(
+    p_correo VARCHAR(50)
+)
+RETURNS BOOLEAN
+BEGIN
+    DECLARE v_valido BOOLEAN DEFAULT FALSE;
+
+    -- Utilizamos una expresión regular para verificar la estructura del correo
+    IF p_correo REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$' THEN
+        SET v_valido = TRUE;
+    END IF;
+
+    RETURN v_valido;
+END//
+DELIMITER ;
+
 
 #### Carrera existe
 Delimiter //
@@ -217,7 +257,7 @@ create procedure registrarEstudiante(
     p_carnet bigint,
     p_nombres varchar(50),
     p_apellidos varchar(50),
-    p_fecha_nacimiento date,
+    p_fecha_nacimiento varchar(10),
     p_correo varchar(50),
     p_telefono int,
     p_direccion varchar(50),
@@ -225,6 +265,13 @@ create procedure registrarEstudiante(
     p_carrera bigint
 )
 begin
+
+    set p_fecha_nacimiento = convertir_fecha(p_fecha_nacimiento);
+
+    # Validar que el estudiante no exista
+    if (select count(*) from estudiante where carnet = p_carnet) > 0 then
+        signal sqlstate '45000' set message_text = 'El estudiante ya existe';
+    end if;
 
    # Validar que la carrera exista
     if (not carrera_existe_id(p_carrera)) then
@@ -262,7 +309,7 @@ Delimiter //
 create procedure registrarDocente(
     p_nombres varchar(50),
     p_apellidos varchar(50),
-    p_fecha_nacimiento date,
+    p_fecha_nacimiento varchar(10),
     p_correo varchar(50),
     p_telefono int,
     p_direccion varchar(50),
@@ -270,6 +317,8 @@ create procedure registrarDocente(
     p_siif bigint
 )
 begin
+
+    set p_fecha_nacimiento = convertir_fecha(p_fecha_nacimiento);
 
     # Validar que el docente no exista
     if docente_existe(p_siif) then
@@ -434,13 +483,13 @@ begin
         signal sqlstate '45000' set message_text = 'El estudiante ya tiene el curso asignado';
     end if;
 
-    # Debe pertenecer a la carrera o area comun id_carrera = 1
+    # Debe pertenecer a la carrera o area comun id_carrera = 0
     if (
         select 
             count(*)
         from 
             estudiante e
-            inner join curso c on (c.codigo = p_codigo_curso) and (e.carrera = c.carrera or c.carrera = 1)
+            inner join curso c on (c.codigo = p_codigo_curso) and (e.carrera = c.carrera or c.carrera = 0)
         where 
             e.carnet = p_carnet_estudiante
         ) = 0 then
@@ -923,7 +972,7 @@ begin
     from
         curso c
     where
-        c.carrera = p_carrera or c.carrera = 1
+        c.carrera = p_carrera or c.carrera = 0
     order by c.codigo;
 end //
 
@@ -934,7 +983,7 @@ begin
     select
         e.carnet,
         concat(e.nombres, ' ', e.apellidos) as nombre_completo,
-        e.fecha_nacimiento,
+        convertir_fecha_string(e.fecha_nacimiento) as fecha_nacimiento,
         e.correo,
         e.telefono,
         e.direccion,
@@ -957,7 +1006,8 @@ begin
     select
         d.siif,
         concat(d.nombres, ' ', d.apellidos) as nombre_completo,
-        d.fecha_nacimiento,
+        -- convertir e.fecha_nacimiento a formato dd/mm/yyyy
+        convertir_fecha_string(d.fecha_nacimiento) as fecha_nacimiento,
         d.correo,
         d.telefono,
         d.direccion,
@@ -1021,7 +1071,7 @@ begin
         if (ch.ciclo = '1S', 'Primer Semestre', if (ch.ciclo = '2S', 'Segundo Semestre', if (ch.ciclo = 'VJ', 'Vacaciones de Julio', 'Vacaciones de Diciembre'))) as ciclo,
         ch.anio,
         ch.cupo_actual,
-        a.fecha
+        convertir_fecha_hora_string(a.fecha) as fecha
     from acta a
     inner join curso_habilitado ch on ch.id_habilitacion = a.id_habilitacion
     where ch.codigo_curso = p_codigo_curso;
@@ -1048,130 +1098,3 @@ begin
         a.fecha_desasignacion is not null
     group by ch.id_habilitacion;
 end //
-
-#### datos
-
-#crear carrera
-call crearCarrera('Area comun');
-call crearCarrera('Ingenieria en Ciencias y Sistemas');
-call crearCarrera('Ingenieria Industrial');
-call crearCarrera('Ingenieria Mecanica');
-call crearCarrera('Ingenieria Quimica');
-call crearCarrera('Ingenieria Civil');
-
-#crear docente
-
-
-call registrarDocente('Juan', 'Perez', '1990-01-01', 'profesor1@universidad.com', '12345678', 'Ciudad', 1234567890101, 1);
-call registrarDocente('Pedro', 'Gomez', '1990-01-01','profesor2@universidad.com', '12345607', 'Ciudad', 9234567890101, 2);
-call registrarDocente('Maria', 'Lopez', '1990-01-01','profesor3@universidad.com', '12345618', 'Ciudad', 2234567890101, 3);
-call registrarDocente('Jose', 'Garcia', '1990-01-01','profesor4@universidad.com', '12345629', 'Ciudad', 3234567890101, 4);
-call registrarDocente('Luis', 'Rodriguez', '1990-01-01','profesor5@universidad.com', '12345630', 'Ciudad', 4234567890101, 5);
-
-#crear estudiantes (2 por carrera)
-call registrarEstudiante(201900000, 'Estudiante', '1', '2000-01-01','estudiante1@universidad.com', '12345678', 'Ciudad', '1234567890101', 2);
-call registrarEstudiante(201900001, 'Estudiante', '2', '2000-01-01','estudiante2@universidad.com', '12345607', 'Ciudad', '9234567890101', 2);
-call registrarEstudiante(201900002, 'Estudiante', '3', '2000-01-01','estudiante3@universidad.com', '12345618', 'Ciudad', '2234567890101', 2);
-call registrarEstudiante(201900003, 'Estudiante', '4', '2000-01-01','estudiante4@universidad.com', '12335629', 'Ciudad', '3234567890101', 2);
-call registrarEstudiante(201900004, 'Estudiante', '5', '2000-01-01','estudiante5@universidad.com', '12325629', 'Ciudad', '3243567890101', 2);
-call registrarEstudiante(201900005, 'Estudiante', '6', '2000-01-01','estudiante6@universidad.com', '12315629', 'Ciudad', '3212567890101', 2);
-call registrarEstudiante(201900006, 'Estudiante', '7', '2000-01-01','estudiante7@universidad.com', '12325629', 'Ciudad', '3234569090101', 3);
-call registrarEstudiante(201900007, 'Estudiante', '8', '2000-01-01','estudiante8@universidad.com', '12345629', 'Ciudad', '3234567812501', 5);
-call registrarEstudiante(201900008, 'Estudiante', '9', '2000-01-01','estudiante9@universidad.com', '12345629', 'Ciudad', '3234554890101', 5);
-call registrarEstudiante(201900009, 'Estudiante', '10','2000-01-01', 'estudiante10@universidad.com', '12347629', 'Ciudad', '3234534890101', 6);
-
-# 5 cursos por cada carrera y 5 de área común
-
-call crearCurso(1, 'Matematica 1', 0, 2, 1, 1);
-call crearCurso(2, 'Matematica 2', 2, 2, 1, 1);
-call crearCurso(3, 'Matematica 3', 4, 2, 1, 1);
-call crearCurso(4, 'Matematica 4', 6, 2, 1, 1);
-call crearCurso(5, 'Matematica 5', 8, 2, 1, 1);
-
-call crearCurso(6, 'IPC 1', 0, 2, 2, 1);
-call crearCurso(7, 'IPC 2', 0, 2, 2, 1);
-call crearCurso(8, 'IPC 3', 2, 2, 2, 1);
-call crearCurso(9, 'IPC 4', 2, 2, 2, 1);
-call crearCurso(10, 'IPC 5', 4, 2, 2, 1);
-
-call crearCurso(11, 'IO 1', 0, 2, 3, 1);
-call crearCurso(12, 'IO 2', 2, 2, 3, 1);
-call crearCurso(13, 'IO 3', 4, 2, 3, 1);
-call crearCurso(14, 'IO 4', 6, 2, 3, 1);
-call crearCurso(15, 'IO 5', 8, 2, 3, 1);
-
-call crearCurso(16, 'Mecanica 1', 4, 2, 4, 1);
-call crearCurso(17, 'Mecanica 2', 6, 2, 4, 1);
-call crearCurso(18, 'Mecanica 3', 6, 2, 4, 1);
-call crearCurso(19, 'Mecanica 4', 8, 2, 4, 1);
-call crearCurso(20, 'Mecanica 5', 8, 2, 4, 1);
-
-
-call crearCurso(21, 'Quimica 1', 0, 2, 5, 1);
-call crearCurso(22, 'Quimica 2', 2, 2, 5, 1);
-call crearCurso(23, 'Quimica 3', 4, 2, 5, 1);
-call crearCurso(24, 'Quimica 4', 6, 2, 5, 1);
-call crearCurso(25, 'Quimica 5', 8, 2, 5, 1);
-
-call crearCurso(26, 'Dibujo 1', 0, 2, 6, 1);
-call crearCurso(27, 'Dibujo 2', 2, 2, 6, 1);
-call crearCurso(28, 'Dibujo 3', 4, 2, 6, 1);
-call crearCurso(29, 'Dibujo 4', 6, 2, 6, 1);
-call crearCurso(30, 'Dibujo 5', 8, 2, 6, 1);
-
-
-# Cursos de area comun
-call habilitarCurso(1, '1S', 1, 5, 'A'); # Matematica 1 A
-call habilitarCurso(2, '1S', 1, 5, 'A'); # Matematica 2 A
-call habilitarCurso(3, '1S', 1, 5, 'A'); # Matematica 3 A
-call habilitarCurso(4, '1S', 1, 5, 'A'); # Matematica 4 A
-call habilitarCurso(5, '1S', 1, 5, 'A'); # Matematica 5 A
-
-# cursos de sistemas
-call habilitarCurso(6, '1S', 1, 4, 'A'); # IPC 1 A
-call habilitarCurso(6, '1S', 1, 4, 'B'); # IPC 1 B
-
-call habilitarCurso(7, '1S', 1, 4, 'A'); # IPC 2 A
-call habilitarCurso(8, '1S', 1, 4, 'A'); # IPC 3 A
-call habilitarCurso(9, '1S', 1, 4, 'A'); # IPC 4 A
-call habilitarCurso(10, '1S', 1, 4, 'A'); # IPC 5 A
-
-# Creando algunos horarios
-call agregarHorario(1, 1, '09:00');
-call agregarHorario(1, 1, '09:00');
-
-# Asignando a algunos estudiantes
-
-# estudiante de sistemas asignado a MB1
-call asignarCurso(1, '1S', 'A', 201900000);
-call asignarCurso(1, '1S', 'A', 201900001);
-call asignarCurso(1, '1S', 'A', 201900002);
-call asignarCurso(1, '1S', 'A', 201900003);
-call asignarCurso(1, '1S', 'A', 201900004);
-
-# error por cupo maximo
-#call asignarCurso(1, '1S', 'A', 201900005);
-
-# se desasigna un estudiante
-call desasignarCurso(1, '1S', 'A', 201900004);
-
-# asignar notas
-call ingresarNota(1, '1S', 'A', 201900000, 100);
-call ingresarNota(1, '1S', 'A', 201900001, 60);
-call ingresarNota(1, '1S', 'A', 201900002, 59);
-call ingresarNota(1, '1S', 'A', 201900003, 80);
-
-# generar acta
-call generarActa(1, '1S', 'A');
-
-# reportes
-call consultarPensum(2);
-call consultarEstudiante(201900000);
-call consultarDocente(1);
-call consultarAsignados(1, '1S', 2023, 'A');
-call consultarAprobacion(1, '1S', 2023, 'A');
-call consultarActas(1);
-call consultarDesasignacion(1, '1S', 2023, 'A');
-
-select *
-from historial_transaccion;
